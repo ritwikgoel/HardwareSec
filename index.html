@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browser Fingerprint</title>
+
+    <!-- Include FingerprintJS library -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/2.1.0/fingerprint2.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+
+    <!-- Your custom script to use FingerprintJS -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Initialize FingerprintJS
+            Fingerprint2.get(function(components) {
+                // Extract and use the fingerprint ID
+                var fingerprint = Fingerprint2.x64hash128(components.map(function(pair) {
+                    return pair.value;
+                }).join(), 31);
+
+                // Display Fingerprint ID
+                document.getElementById("fingerprintId").textContent = fingerprint;
+
+                // Display User Agent information
+                document.getElementById("userAgent").textContent = navigator.userAgent;
+
+                // Display Screen Resolution
+                document.getElementById("screenResolution").textContent = screen.width + "x" + screen.height;
+
+                // Display Time Zone
+                document.getElementById("timeZone").textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+                // Display Language
+                document.getElementById("language").textContent = navigator.language || navigator.userLanguage;
+
+                // Display Cookies Enabled
+                document.getElementById("cookiesEnabled").textContent = navigator.cookieEnabled ? "Yes" : "No";
+
+                // Display Do Not Track
+                document.getElementById("doNotTrack").textContent = navigator.doNotTrack || "Not specified";
+
+                // Display Canvas Fingerprint
+                document.getElementById("canvasFingerprint").textContent = components.filter(c => c.key.startsWith("canvas")).map(c => c.value).join(', ');
+
+                // Display WebGL Fingerprint
+                document.getElementById("webglFingerprint").textContent = components.filter(c => c.key.startsWith("webgl")).map(c => c.value).join(', ');
+
+                // Display Installed Fonts
+                document.getElementById("installedFonts").textContent = components.filter(c => c.key.startsWith("fonts")).map(c => c.value).join(', ');
+
+                // Display Browser Plugins
+                document.getElementById("browserPlugins").textContent = navigator.plugins ? Array.from(navigator.plugins).map(plugin => plugin.name).join(', ') : "Not available";
+
+                // Display Platform Information
+                document.getElementById("platformInfo").textContent = navigator.platform;
+
+                // Display Touchscreen Presence
+                document.getElementById("touchscreenPresence").textContent = navigator.maxTouchPoints > 0 ? "Yes" : "No";
+            });
+        });
+    </script>
+</head>
+<body>
+
+    <h1>Browser Fingerprint Information</h1>
+
+    <p>Fingerprint ID: <span id="fingerprintId"></span></p>
+    <p>User Agent: <span id="userAgent"></span></p>
+    <p>Screen Resolution: <span id="screenResolution"></span></p>
+    <p>Time Zone: <span id="timeZone"></span></p>
+    <p>Language: <span id="language"></span></p>
+    <p>Cookies Enabled: <span id="cookiesEnabled"></span></p>
+    <p>Do Not Track: <span id="doNotTrack"></span></p>
+    <p>Canvas Fingerprint: <span id="canvasFingerprint"></span></p>
+    <p>WebGL Fingerprint: <span id="webglFingerprint"></span></p>
+    <p>Installed Fonts: <span id="installedFonts"></span></p>
+    <p>Browser Plugins: <span id="browserPlugins"></span></p>
+    <p>Platform Information: <span id="platformInfo"></span></p>
+    <p>Touchscreen Presence: <span id="touchscreenPresence"></span></p>
+
+</body>
+</html>
